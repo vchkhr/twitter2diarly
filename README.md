@@ -1,25 +1,34 @@
 # twitter2diarly
 
-Import Twitter (X) Archive to the Diarly app.
+Copy tweets from Twitter (X) to the Diarly app.
 
-The script converts the Twitter archive to a CSV file for
+This script converts the Twitter archive to a CSV file for
 importing into the Diarly app.
 
-It also skips retweets and mentions, and groups tweets with the same date,
-separating them with a standard time block from the Diarly app.
+![Screenshot](docs/assets/screenshot-1.png)
+
+# Features
+
+- Group tweets by date.
+
+- Adds native Diarly time separator.
+
+- Add links to videos and photos (your profile should be public).
+
+- Skips retweets and tweets starting with mention
+(may be disabled, read further instructions).
 
 # Requirements
 
 Ruby 2.7.7 or higher is required to run this script.
 
-The code is tested on macOS with ruby-2.7.7 [ arm64 ]
+The code is tested on macOS with `ruby-2.7.7 [ arm64 ]`.
 
 # Steps to follow
 
-By default, the script will ignore tweets that start with mentions and retweets.
-To change this behavior, follow the "Settings" section.
+## 1. Download an archive from Twitter
 
-Note: Skip steps 1-4 if you already downloaded the .zip archive from Twitter.
+Skip these steps if you have already downloaded the archive of your tweets.
 
 1. Open Twitter, select "Settings", "Your account", and
 "Download an archive of your data".
@@ -32,45 +41,47 @@ Twitter with email you when the archive will be ready.
 
 4. When the archive is ready, press "Download archive".
 
-5. Unzip the archive and move its content to the `archive` folder in this
-project, so you will have the following structure:
+## 2. Convert the archive
+
+1. Unzip the archive and move its content to the `archive` folder inside of
+this project, so you will have the following structure:
 
 ```
 archive
   assets
   data
+    tweets.js
   Your archive.html
 convert.rb
 README.md
 ```
 
-6. Run the script with `ruby convert.rb`.
+2. Run the script with `ruby convert.rb`.
 
-7. If everything is correct, the `result.csv` file will be generated.
+3. If everything is correct, the `result.csv` file will be generated and
+you will see the success message in the console.
 
-8. Open Diarly app, go to "File", "Import" and "CSV".
+## 3. Import to Diarly
+
+1. Open Diarly app, and select "File", "Import", and "CSV".
 Select the generated `result.csv` file in this project folder.
 
 9. Click "Import". If you don't see all tweets imported in the app
 after a few seconds, restart the Diarly app.
 
-# Settings
+# Configuration
 
-After updating the settings re-run the script with `ruby convert.rb`.
+You can adjust the configuration by changing the "true" and "false" values
+inside the `config.json` file:
 
-## Do not skip tweets that start with mentions
+- `with_mentions`: false = ignore tweets with "@" in the text.
 
-To not skip your tweets that start with `@`,
-update the `skip_mentions` line in the `convert.rb` to:
+- `with_mentions_at_start`: false = ignore tweets starting with "@"
+(ignored if `with_mentions` is false).
 
-```ruby
-skip_mentions: false,
-```
+- `retweets`: false = ignore retweets.
 
-## Do not skip retweets
+- `with_media`: false = ignore tweets that have media.
 
-To not skip retweets, update the `skip_retweets` line in the `convert.rb` to:
-
-```ruby
-skip_retweets: false,
-```
+- `keep_media`: false = keep the text of tweets, but omit videos and photos
+(ignored if `with_media` is false).

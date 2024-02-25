@@ -1,0 +1,12 @@
+{
+  "tweets": {
+    "with_mentions": true,
+    "with_mentions_at_start": false,
+    "retweets": false,
+    "with_media": true,
+    "keep_media": true
+  },
+  "result_file": "result.csv",
+  "tweets_file": "archive/data/tweets.js",
+  "tweets_file_prefix_to_remove": "window.YTD.tweets.part0 = "
+}
